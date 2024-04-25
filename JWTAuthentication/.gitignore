@@ -1,0 +1,7 @@
+venv/
+.env/
+
+__pycache__/
+*.py[cod]
+fernet_key.txt
+.pytest_cache/
