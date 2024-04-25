@@ -1,4 +1,4 @@
-![logo](https://github.com/D4V1D16/EcommerceHub/assets/99196362/ea2963b0-ea9c-40c0-97e3-3be80344e6eb)
+
 
 
 ¡Plataforma de Comercio Electrónico Multicanal!
