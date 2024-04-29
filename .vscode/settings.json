@@ -1,0 +1,26 @@
+{
+    "cSpell.ignoreWords": [
+        "Fernet",
+        "psycopg"
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#b5f6de",
+        "activityBar.background": "#b5f6de",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#c071ee",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#15202b99",
+        "sash.hoverBorder": "#b5f6de",
+        "statusBar.background": "#87f1c9",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#59ecb4",
+        "statusBarItem.remoteBackground": "#87f1c9",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#87f1c9",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#87f1c999",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#87f1c9"
+}

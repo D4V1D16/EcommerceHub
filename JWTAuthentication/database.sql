@@ -5,15 +5,8 @@ CREATE TABLE users (
     
 );
 
-CREATE TABLE jwt_tokens (
+CREATE TABLE TokenBlocklist (
     id SERIAL PRIMARY KEY,
-    token VARCHAR(500) NOT NULL,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    
-);
-
-CREATE TABLE revoked_tokens (
-    id SERIAL PRIMARY KEY,
-    token VARCHAR(500) NOT NULL,
-    expiration_date TIMESTAMP NOT NULL,
+    jti VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
