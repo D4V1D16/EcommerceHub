@@ -10,8 +10,7 @@ app.use(userRoutes);
 
 
 
-
-mongoose.connect('mongodb+srv://davidsantiagojimenez16:kLxzdcyp34opAz4I@infodb.qcvtdg7.mongodb.net/?retryWrites=true&w=majority&appName=InfoDB')
+mongoose.connect('LINK')
   .then(() => {
     console.log("Connected to MongoDB!");
     app.listen(PORT, () => console.log('Server running on port ' + PORT));
