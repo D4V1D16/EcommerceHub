@@ -8,3 +8,4 @@ fernet_key.txt
 .pytest_cache/
 .database
 .vscode
+JWTAuthAPITesting

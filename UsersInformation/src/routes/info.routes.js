@@ -1,10 +1,8 @@
 import { Router } from "express";
-import infoUser from "../models/infoUsers.model.js";
 import { postUser,getAllUsers, deleteUser, updateUser} from "../controllers/postInfo.controller.js";
 import bodyParser from "body-parser";
 
 const router = Router();
-var jsonParser = bodyParser.json()
 
 
 router.post('/info',postUser);

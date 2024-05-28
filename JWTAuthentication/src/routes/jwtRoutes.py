@@ -1,8 +1,11 @@
 from flask import Blueprint,request,jsonify
+from datetime import timedelta
+
 from services.userAuth import verificarUsuario
-from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity,get_jwt
+from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity,get_jwt
 from utils.DBPushQuery import pushQuery
 from datetime import datetime,timezone
+
 jwtRoutesBluePrint = Blueprint('jwtRoutes',__name__)
 @jwtRoutesBluePrint.route('/login', methods=['POST'])
 def login():
@@ -13,8 +16,8 @@ def login():
     result = verificarUsuario(username,userpassword)
 
     if result == True:
-        
-        return jsonify({'token':create_access_token(identity=username)})
+        return jsonify({'access_token':create_access_token(identity=username),
+                        'refresh_token':create_refresh_token(identity=username,expires_delta=False)}),200
     else:
         return jsonify({'message':'Credenciales Incorrectas'}),401
 
@@ -27,6 +30,15 @@ def refresh():
     access_token = create_access_token(identity=identity)
     return jsonify(access_token=access_token)
 
+@jwtRoutesBluePrint.route("/logout",methods=["DELETE"])
+@jwt_required()
+def Logout():
+    jti = get_jwt()["jti"]
+    now = datetime.now(timezone.utc)
+    queryTuple=(jti,now)
+    result = pushQuery('INSERT INTO tokenblocklist (jti,created_at) VALUES (%s,%s)RETURNING id',queryTuple)
+    return jsonify({'message':'Se ha cerrado la sesión'}),200
+
 
 def check_if_token_revoked(jwtPayload:dict) -> bool:
     jti = jwtPayload["jti"]
@@ -36,14 +48,14 @@ def check_if_token_revoked(jwtPayload:dict) -> bool:
     return result is not None
 
 
-
-
-@jwtRoutesBluePrint.route("/logout",methods=["DELETE"])
-@jwt_required()
-def Logout():
-    jti = get_jwt()["jti"]
-    now = datetime.now(timezone.utc)
-    queryTuple=(jti,now)
-    result = pushQuery('INSERT INTO tokenblocklist (jti,created_at) VALUES (%s,%s)RETURNING id',queryTuple)
-
-    return jsonify({'message':'Se ha cerrado la sesión'}),200
+@jwtRoutesBluePrint.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+        return response
+    except (RuntimeError, KeyError):
+        return response

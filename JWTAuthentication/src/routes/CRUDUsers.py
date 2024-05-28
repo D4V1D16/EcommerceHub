@@ -11,7 +11,6 @@ crud = Blueprint('crudUsers',__name__)
 @crud.post('/api/users')
 def create_users():
     usuario = request.get_json()
-    print(type(usuario))
     username = usuario['username']
     userpass = usuario['password']
     userpass = encrypt(userpass)
@@ -29,6 +28,7 @@ def delete_users(id):
     else:        
         current_user = get_jwt_identity()
         result = pushQuery('SELECT username FROM users WHERE id = %s', (id,))
+        print(current_user)
         if result['username'] != current_user:
             return jsonify({'message': 'No puedes borrar este usuario'}), 403
         else:   
@@ -60,7 +60,7 @@ def update_users(id):
 @crud.get('/api/users/<id>')
 def getOne_user(id):
     queryTuple = (id,)
-    result = pushQuery('SELECT  , username FROM users WHERE id = %s',queryTuple)
+    result = pushQuery('SELECT username FROM users WHERE id = %s',queryTuple)
     if result is None:
         return jsonify({'Mensaje':'Usuario no encontrado'}),404 
     else:
