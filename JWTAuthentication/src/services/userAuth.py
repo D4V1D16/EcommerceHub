@@ -14,4 +14,3 @@ def verificarUsuario(usuario, contrasena):
     else:
         return False
 
-
